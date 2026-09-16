@@ -117,8 +117,7 @@ function AboutPreview() {
                   <p className="text-[25px] font-bold leading-none text-[#FE6B00] sm:text-[28px]">
                     <AnimatedNumber
                       value={stat.value}
-                      suffix={stat.suffix}
-                    />
+                      suffix={stat.suffix}/>
                   </p>
 
                   <p className="mt-2 text-[10px] font-medium text-[#6B7280] sm:text-xs">
@@ -133,8 +132,7 @@ function AboutPreview() {
           <div className="mt-8">
             <a
               href="/about"
-              className="inline-flex items-center justify-center rounded-lg bg-black px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#FE6B00] hover:text-black hover:shadow-lg"
-            >
+              className="inline-flex items-center justify-center rounded-lg bg-black px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#FE6B00] hover:text-black hover:shadow-lg">
               Learn More About Us
             </a>
           </div>
