@@ -1,7 +1,7 @@
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 
-import aiglinkImage from "../../assets/images/aiglink.png";
+import aiglinkImage from "../../assets/images/Aiglink.png";
 import digitalPrintingImage from "../../assets/images/Digital-Printing.png";
 import Promotional2 from "../../assets/images/Promotional2.png";
 

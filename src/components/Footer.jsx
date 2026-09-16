@@ -8,7 +8,7 @@ import {
 
 import { Link } from "react-router-dom";
 
-import logo from "../assets/images/aiglink-logo-new.png";
+import logo from "../assets/images/aiglink-logo-new.PNG";
 
 function Footer() {
   const quickLinks = [
