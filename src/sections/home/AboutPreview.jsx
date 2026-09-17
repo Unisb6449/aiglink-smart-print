@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Award, BriefcaseBusiness, Users } from "lucide-react";
 
-import aboutImage from "../../assets/images/about-img.png";
+import aboutImage from "../../assets/images/About-img.png";
 
 function AnimatedNumber({ value, suffix = "" }) {
   const [count, setCount] = useState(0);
