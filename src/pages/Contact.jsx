@@ -137,6 +137,7 @@ function Contact() {
       const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
       const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
+      // Developer-only debugging information
       console.log("EmailJS Configuration:");
       console.log("Service ID:", serviceId);
       console.log("Template ID:", templateId);
@@ -158,32 +159,27 @@ function Contact() {
           formData.additionalRequirements || "None provided",
       };
 
+      // Developer-only debugging information
       console.log("EmailJS Template Parameters:", templateParams);
 
-      await emailjs.send(
-        serviceId,
-        templateId,
-        templateParams,
-        {
-          publicKey,
-        },
-      );
+      await emailjs.send(serviceId, templateId, templateParams, {
+        publicKey,
+      });
 
       console.log("EmailJS: Request sent successfully.");
 
       setSubmitted(true);
     } catch (error) {
+      // Technical error stays in the browser console.
+      // The client will NOT see this information.
       console.error("EmailJS submission error:", error);
       console.error("EmailJS status:", error?.status);
       console.error("EmailJS text:", error?.text);
       console.error("EmailJS message:", error?.message);
 
+      // Client-friendly message only
       setSubmitError(
-        `EmailJS Error ${error?.status || ""}: ${
-          error?.text ||
-          error?.message ||
-          "Something went wrong while sending your request."
-        }`,
+        "We couldn't send your request right now. Please try again or contact us directly on WhatsApp.",
       );
     } finally {
       setIsSending(false);
@@ -216,17 +212,15 @@ function Contact() {
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <a
                 href="/"
-                className="rounded-full bg-[#FE6B00] px-7 py-3.5 text-sm font-semibold text-black transition hover:bg-orange-500"
-              >
+                className="rounded-full bg-[#FE6B00] px-7 py-3.5 text-sm font-semibold text-black transition hover:bg-orange-500">
                 Back to Home
               </a>
 
               <a
-                href="https://wa.me/2349114301414?text=Hello%20Aiglink%2C%20I%20just%20submitted%20a%20quote%20request%20through%20your%20website."
+                href="https://wa.me/2349114301414?text=Hello%20Aiglink%2C%20I%20just%20submitted%20a%20quote%20request%20through%20your%20website"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full border border-gray-200 px-7 py-3.5 text-sm font-semibold text-black transition hover:border-[#FE6B00] hover:text-[#FE6B00]"
-              >
+                className="rounded-full border border-gray-200 px-7 py-3.5 text-sm font-semibold text-black transition hover:border-[#FE6B00] hover:text-[#FE6B00]">
                 Chat on WhatsApp
               </a>
             </div>
@@ -260,25 +254,21 @@ function Contact() {
       {/* Form Section */}
       <section className="bg-white py-16 sm:py-20 lg:py-24">
         <div className="mx-auto grid max-w-[1280px] gap-10 px-6 sm:px-8 lg:grid-cols-[1.6fr_0.8fr] lg:gap-16 lg:px-12">
-          
           {/* Form */}
           <div className="rounded-[24px] border border-gray-100 bg-white p-6 shadow-sm sm:p-8 lg:p-10">
-            
             {/* Progress */}
             <div className="mb-10">
               <div className="flex items-center justify-between gap-2">
                 {[1, 2, 3, 4].map((step) => (
                   <div
                     key={step}
-                    className="flex flex-1 items-center last:flex-none"
-                  >
+                    className="flex flex-1 items-center last:flex-none">
                     <div
                       className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold transition ${
                         currentStep >= step
                           ? "bg-[#FE6B00] text-black"
                           : "bg-gray-100 text-gray-400"
-                      }`}
-                    >
+                      }`}>
                       {step}
                     </div>
 
@@ -288,34 +278,32 @@ function Contact() {
                           currentStep > step
                             ? "bg-[#FE6B00]"
                             : "bg-gray-100"
-                        }`}
-                      />
+                        }`}/>
                     )}
                   </div>
                 ))}
               </div>
 
               <p className="mt-5 text-sm font-semibold text-black">
-                {[
-                  "Contact Information",
-                  "Project Details",
-                  "Upload Files",
-                  "Review & Submit",
-                ][currentStep - 1]}
+                {
+                  [
+                    "Contact Information",
+                    "Project Details",
+                    "Upload Files",
+                    "Review & Submit",
+                  ][currentStep - 1]
+                }
               </p>
             </div>
 
             <form ref={formRef} onSubmit={handleSubmit}>
-              
               {/* STEP 1 */}
               <div hidden={currentStep !== 1}>
                 <div className="grid gap-5 sm:grid-cols-2">
-                  
                   <div className="sm:col-span-2">
                     <label
                       htmlFor="fullName"
-                      className="mb-2 block text-sm font-semibold text-black"
-                    >
+                      className="mb-2 block text-sm font-semibold text-black">
                       Full Name *
                     </label>
 
@@ -332,8 +320,7 @@ function Contact() {
                         errors.fullName
                           ? "border-red-400"
                           : "border-gray-200"
-                      }`}
-                    />
+                      }`}/>
 
                     {errors.fullName && (
                       <p className="mt-2 text-xs text-red-500">
@@ -345,8 +332,7 @@ function Contact() {
                   <div>
                     <label
                       htmlFor="companyName"
-                      className="mb-2 block text-sm font-semibold text-black"
-                    >
+                      className="mb-2 block text-sm font-semibold text-black">
                       Company Name
                     </label>
 
@@ -359,15 +345,13 @@ function Contact() {
                         updateField("companyName", event.target.value)
                       }
                       placeholder="Your company name"
-                      className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-black outline-none transition placeholder:text-gray-400 focus:border-[#FE6B00] focus:ring-2 focus:ring-orange-100"
-                    />
+                      className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-black outline-none transition placeholder:text-gray-400 focus:border-[#FE6B00] focus:ring-2 focus:ring-orange-100"/>
                   </div>
 
                   <div>
                     <label
                       htmlFor="email"
-                      className="mb-2 block text-sm font-semibold text-black"
-                    >
+                      className="mb-2 block text-sm font-semibold text-black">
                       Email Address *
                     </label>
 
@@ -381,11 +365,8 @@ function Contact() {
                       }
                       placeholder="Enter your email address"
                       className={`w-full rounded-xl border bg-white px-4 py-3.5 text-sm text-black outline-none transition placeholder:text-gray-400 focus:border-[#FE6B00] focus:ring-2 focus:ring-orange-100 ${
-                        errors.email
-                          ? "border-red-400"
-                          : "border-gray-200"
-                      }`}
-                    />
+                        errors.email ? "border-red-400" : "border-gray-200"
+                      }`}/>
 
                     {errors.email && (
                       <p className="mt-2 text-xs text-red-500">
@@ -397,8 +378,7 @@ function Contact() {
                   <div className="sm:col-span-2">
                     <label
                       htmlFor="phone"
-                      className="mb-2 block text-sm font-semibold text-black"
-                    >
+                      className="mb-2 block text-sm font-semibold text-black">
                       Phone Number *
                     </label>
 
@@ -412,11 +392,8 @@ function Contact() {
                       }
                       placeholder="+234 000 000 0000"
                       className={`w-full rounded-xl border bg-white px-4 py-3.5 text-sm text-black outline-none transition placeholder:text-gray-400 focus:border-[#FE6B00] focus:ring-2 focus:ring-orange-100 ${
-                        errors.phone
-                          ? "border-red-400"
-                          : "border-gray-200"
-                      }`}
-                    />
+                        errors.phone ? "border-red-400" : "border-gray-200"
+                      }`}/>
 
                     {errors.phone && (
                       <p className="mt-2 text-xs text-red-500">
@@ -430,12 +407,10 @@ function Contact() {
               {/* STEP 2 */}
               <div hidden={currentStep !== 2}>
                 <div className="space-y-5">
-                  
                   <div>
                     <label
                       htmlFor="service"
-                      className="mb-2 block text-sm font-semibold text-black"
-                    >
+                      className="mb-2 block text-sm font-semibold text-black">
                       Service *
                     </label>
 
@@ -450,8 +425,7 @@ function Contact() {
                         errors.service
                           ? "border-red-400"
                           : "border-gray-200"
-                      }`}
-                    >
+                      }`}>
                       <option value="">Select a service</option>
 
                       {services.map((service) => (
@@ -471,8 +445,7 @@ function Contact() {
                   <div>
                     <label
                       htmlFor="projectDescription"
-                      className="mb-2 block text-sm font-semibold text-black"
-                    >
+                      className="mb-2 block text-sm font-semibold text-black">
                       Project Description *
                     </label>
 
@@ -492,8 +465,7 @@ function Contact() {
                         errors.projectDescription
                           ? "border-red-400"
                           : "border-gray-200"
-                      }`}
-                    />
+                      }`}/>
 
                     {errors.projectDescription && (
                       <p className="mt-2 text-xs text-red-500">
@@ -506,8 +478,7 @@ function Contact() {
                     <div>
                       <label
                         htmlFor="quantity"
-                        className="mb-2 block text-sm font-semibold text-black"
-                      >
+                        className="mb-2 block text-sm font-semibold text-black">
                         Quantity
                       </label>
 
@@ -520,15 +491,13 @@ function Contact() {
                           updateField("quantity", event.target.value)
                         }
                         placeholder="e.g. 500 pieces"
-                        className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-black outline-none transition placeholder:text-gray-400 focus:border-[#FE6B00] focus:ring-2 focus:ring-orange-100"
-                      />
+                        className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-black outline-none transition placeholder:text-gray-400 focus:border-[#FE6B00] focus:ring-2 focus:ring-orange-100"/>
                     </div>
 
                     <div>
                       <label
                         htmlFor="deadline"
-                        className="mb-2 block text-sm font-semibold text-black"
-                      >
+                        className="mb-2 block text-sm font-semibold text-black">
                         Preferred Deadline
                       </label>
 
@@ -540,16 +509,14 @@ function Contact() {
                         onChange={(event) =>
                           updateField("deadline", event.target.value)
                         }
-                        className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-black outline-none transition focus:border-[#FE6B00] focus:ring-2 focus:ring-orange-100"
-                      />
+                        className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-black outline-none transition focus:border-[#FE6B00] focus:ring-2 focus:ring-orange-100"/>
                     </div>
                   </div>
 
                   <div>
                     <label
                       htmlFor="additionalRequirements"
-                      className="mb-2 block text-sm font-semibold text-black"
-                    >
+                      className="mb-2 block text-sm font-semibold text-black">
                       Additional Requirements
                     </label>
 
@@ -565,8 +532,7 @@ function Contact() {
                         )
                       }
                       placeholder="Anything else we should know?"
-                      className="w-full resize-none rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm leading-6 text-black outline-none transition placeholder:text-gray-400 focus:border-[#FE6B00] focus:ring-2 focus:ring-orange-100"
-                    />
+                      className="w-full resize-none rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm leading-6 text-black outline-none transition placeholder:text-gray-400 focus:border-[#FE6B00] focus:ring-2 focus:ring-orange-100"/>
                   </div>
                 </div>
               </div>
@@ -574,7 +540,6 @@ function Contact() {
               {/* STEP 3 */}
               <div hidden={currentStep !== 3}>
                 <div className="rounded-2xl border-2 border-dashed border-gray-200 bg-[#F8F9FA] p-6 text-center sm:p-10">
-                  
                   <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-orange-100">
                     <span className="text-2xl text-[#FE6B00]">↑</span>
                   </div>
@@ -590,8 +555,7 @@ function Contact() {
 
                   <label
                     htmlFor="attachment"
-                    className="mt-6 inline-flex cursor-pointer rounded-full bg-[#FE6B00] px-7 py-3.5 text-sm font-semibold text-black transition hover:bg-orange-500"
-                  >
+                    className="mt-6 inline-flex cursor-pointer rounded-full bg-[#FE6B00] px-7 py-3.5 text-sm font-semibold text-black transition hover:bg-orange-500">
                     {formData.file ? "Change File" : "Choose File"}
                   </label>
 
@@ -600,8 +564,7 @@ function Contact() {
                     name="attachment"
                     type="file"
                     onChange={handleFileChange}
-                    className="sr-only"
-                  />
+                    className="sr-only"/>
 
                   {formData.file && (
                     <div className="mx-auto mt-5 flex max-w-md items-center justify-between gap-4 rounded-xl border border-gray-200 bg-white p-4 text-left">
@@ -618,8 +581,7 @@ function Contact() {
                       <button
                         type="button"
                         onClick={removeFile}
-                        className="shrink-0 text-sm font-semibold text-red-500 transition hover:text-red-600"
-                      >
+                        className="shrink-0 text-sm font-semibold text-red-500 transition hover:text-red-600">
                         Remove
                       </button>
                     </div>
@@ -644,7 +606,6 @@ function Contact() {
                   </p>
 
                   <div className="mt-7 divide-y divide-gray-100 rounded-2xl border border-gray-100">
-                    
                     <div className="p-5">
                       <p className="text-xs font-semibold uppercase tracking-wider text-[#FE6B00]">
                         Contact Information
@@ -653,6 +614,7 @@ function Contact() {
                       <div className="mt-4 grid gap-4 sm:grid-cols-2">
                         <div>
                           <p className="text-xs text-gray-500">Full Name</p>
+
                           <p className="mt-1 text-sm font-semibold text-black">
                             {formData.fullName || "Not provided"}
                           </p>
@@ -660,6 +622,7 @@ function Contact() {
 
                         <div>
                           <p className="text-xs text-gray-500">Company</p>
+
                           <p className="mt-1 text-sm font-semibold text-black">
                             {formData.companyName || "Not provided"}
                           </p>
@@ -667,6 +630,7 @@ function Contact() {
 
                         <div>
                           <p className="text-xs text-gray-500">Email</p>
+
                           <p className="mt-1 break-all text-sm font-semibold text-black">
                             {formData.email}
                           </p>
@@ -674,6 +638,7 @@ function Contact() {
 
                         <div>
                           <p className="text-xs text-gray-500">Phone</p>
+
                           <p className="mt-1 text-sm font-semibold text-black">
                             {formData.phone}
                           </p>
@@ -689,6 +654,7 @@ function Contact() {
                       <div className="mt-4 space-y-4">
                         <div>
                           <p className="text-xs text-gray-500">Service</p>
+
                           <p className="mt-1 text-sm font-semibold text-black">
                             {formData.service}
                           </p>
@@ -707,6 +673,7 @@ function Contact() {
                         <div className="grid gap-4 sm:grid-cols-2">
                           <div>
                             <p className="text-xs text-gray-500">Quantity</p>
+
                             <p className="mt-1 text-sm font-semibold text-black">
                               {formData.quantity || "Not provided"}
                             </p>
@@ -714,6 +681,7 @@ function Contact() {
 
                           <div>
                             <p className="text-xs text-gray-500">Deadline</p>
+
                             <p className="mt-1 text-sm font-semibold text-black">
                               {formData.deadline || "Not provided"}
                             </p>
@@ -745,21 +713,16 @@ function Contact() {
                       </p>
 
                       <p className="mt-2 text-xs text-gray-400">
-                        File upload is optional. The attachment is currently
-                        not sent through EmailJS.
+                        File upload is optional.
                       </p>
                     </div>
                   </div>
 
+                  {/* Client-friendly error only */}
                   {submitError && (
                     <div className="mt-5 rounded-xl border border-red-200 bg-red-50 p-4">
                       <p className="text-sm font-semibold text-red-600">
                         {submitError}
-                      </p>
-
-                      <p className="mt-2 text-xs leading-5 text-red-500">
-                        Open your browser console with F12 and check the
-                        EmailJS text/status for the exact configuration error.
                       </p>
                     </div>
                   )}
@@ -773,8 +736,7 @@ function Contact() {
                     type="button"
                     onClick={handlePrevious}
                     disabled={isSending}
-                    className="rounded-full border border-gray-200 px-7 py-3.5 text-sm font-semibold text-black transition hover:border-[#FE6B00] hover:text-[#FE6B00] disabled:cursor-not-allowed disabled:opacity-50"
-                  >
+                    className="rounded-full border border-gray-200 px-7 py-3.5 text-sm font-semibold text-black transition hover:border-[#FE6B00] hover:text-[#FE6B00] disabled:cursor-not-allowed disabled:opacity-50">
                     Back
                   </button>
                 ) : (
@@ -785,16 +747,14 @@ function Contact() {
                   <button
                     type="button"
                     onClick={handleNext}
-                    className="rounded-full bg-[#FE6B00] px-8 py-3.5 text-sm font-semibold text-black transition hover:bg-orange-500"
-                  >
+                    className="rounded-full bg-[#FE6B00] px-8 py-3.5 text-sm font-semibold text-black transition hover:bg-orange-500">
                     {currentStep === 3 ? "Review Request" : "Continue"}
                   </button>
                 ) : (
                   <button
                     type="submit"
                     disabled={isSending}
-                    className="rounded-full bg-[#FE6B00] px-8 py-3.5 text-sm font-semibold text-black transition hover:bg-orange-500 disabled:cursor-not-allowed disabled:opacity-60"
-                  >
+                    className="rounded-full bg-[#FE6B00] px-8 py-3.5 text-sm font-semibold text-black transition hover:bg-orange-500 disabled:cursor-not-allowed disabled:opacity-60">
                     {isSending
                       ? "Sending Request..."
                       : "Submit Quote Request"}
@@ -821,12 +781,12 @@ function Contact() {
             </p>
 
             <div className="mt-8 space-y-6">
-              
               <div>
                 <div className="flex items-center gap-3">
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FE6B00] text-black">
                     ✓
                   </span>
+
                   <h3 className="font-semibold">Premium Quality</h3>
                 </div>
 
@@ -840,6 +800,7 @@ function Contact() {
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FE6B00] text-black">
                     ✓
                   </span>
+
                   <h3 className="font-semibold">Creative Solutions</h3>
                 </div>
 
@@ -853,6 +814,7 @@ function Contact() {
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FE6B00] text-black">
                     ✓
                   </span>
+
                   <h3 className="font-semibold">Reliable Delivery</h3>
                 </div>
 
@@ -866,6 +828,7 @@ function Contact() {
                   <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FE6B00] text-black">
                     ✓
                   </span>
+
                   <h3 className="font-semibold">Customer Focused</h3>
                 </div>
 
@@ -883,17 +846,15 @@ function Contact() {
               <div className="mt-4 flex flex-col gap-3">
                 <a
                   href="tel:+2348073400086"
-                  className="rounded-full border border-gray-700 px-5 py-3 text-center text-sm font-semibold transition hover:border-[#FE6B00] hover:text-[#FE6B00]"
-                >
+                  className="rounded-full border border-gray-700 px-5 py-3 text-center text-sm font-semibold transition hover:border-[#FE6B00] hover:text-[#FE6B00]">
                   Call Us
                 </a>
 
                 <a
-                  href="https://wa.me/2349114301414?text=Hello%20Aiglink%2C%20I%20would%20like%20to%20make%20an%20inquiry."
+                  href="https://wa.me/2349114301414?text=Hello%20Aiglink%2C%20I%20would%20like%20to%20make%20an%20inquiry"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full bg-[#FE6B00] px-5 py-3 text-center text-sm font-semibold text-black transition hover:bg-orange-500"
-                >
+                  className="rounded-full bg-[#FE6B00] px-5 py-3 text-center text-sm font-semibold text-black transition hover:bg-orange-500">
                   WhatsApp Us
                 </a>
               </div>
