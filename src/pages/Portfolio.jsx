@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 import { Link } from "react-router-dom";
 
 const categories = [
@@ -14,7 +15,6 @@ const projects = [
   // ================================================================
   // PRINTING
   // ================================================================
-
   {
     title: "Premium Business Prints",
     category: "Printing",
@@ -52,6 +52,8 @@ const projects = [
     category: "Printing",
     image:
       "https://res.cloudinary.com/regrxhop/video/upload/v1789706921/PortfolioPrintingC.mp4",
+    poster:
+      "https://res.cloudinary.com/regrxhop/video/upload/so_0/v1789706921/PortfolioPrintingC.jpg",
     description: "Professional printing project.",
     type: "video",
     showInAll: false,
@@ -62,6 +64,8 @@ const projects = [
     category: "Printing",
     image:
       "https://res.cloudinary.com/regrxhop/video/upload/v1789668452/PortfolioPrintingD.mp4",
+    poster:
+      "https://res.cloudinary.com/regrxhop/video/upload/so_0/v1789668452/PortfolioPrintingD.jpg",
     description: "Professional printing project.",
     type: "video",
     showInAll: false,
@@ -72,6 +76,8 @@ const projects = [
     category: "Printing",
     image:
       "https://res.cloudinary.com/regrxhop/video/upload/v1789667013/PortfolioPrinting2.mp4",
+    poster:
+      "https://res.cloudinary.com/regrxhop/video/upload/so_0/v1789667013/PortfolioPrinting2.jpg",
     description: "Quality printing project.",
     type: "video",
     showInAll: false,
@@ -82,6 +88,8 @@ const projects = [
     category: "Printing",
     image:
       "https://res.cloudinary.com/regrxhop/video/upload/v1789671417/PortfolioPrintingE.mp4",
+    poster:
+      "https://res.cloudinary.com/regrxhop/video/upload/so_0/v1789671417/PortfolioPrintingE.jpg",
     description: "Quality printing project.",
     type: "video",
     showInAll: false,
@@ -92,6 +100,8 @@ const projects = [
     category: "Printing",
     image:
       "https://res.cloudinary.com/regrxhop/video/upload/v1789671773/PortfolioPrintingF.mp4",
+    poster:
+      "https://res.cloudinary.com/regrxhop/video/upload/so_0/v1789671773/PortfolioPrintingF.jpg",
     description: "Quality printing project.",
     type: "video",
     showInAll: false,
@@ -102,6 +112,8 @@ const projects = [
     category: "Printing",
     image:
       "https://res.cloudinary.com/regrxhop/video/upload/v1789675316/PortfolioPrintingK.mp4",
+    poster:
+      "https://res.cloudinary.com/regrxhop/video/upload/so_0/v1789675316/PortfolioPrintingK.jpg",
     description: "Quality printing project.",
     type: "video",
     showInAll: false,
@@ -112,6 +124,8 @@ const projects = [
     category: "Printing",
     image:
       "https://res.cloudinary.com/regrxhop/video/upload/v1789675584/PortfolioPrintingL.mp4",
+    poster:
+      "https://res.cloudinary.com/regrxhop/video/upload/so_0/v1789675584/PortfolioPrintingL.jpg",
     description: "Quality printing project.",
     type: "video",
     showInAll: false,
@@ -122,6 +136,8 @@ const projects = [
     category: "Printing",
     image:
       "https://res.cloudinary.com/regrxhop/video/upload/v1789676050/PortfolioPrintingM.mp4",
+    poster:
+      "https://res.cloudinary.com/regrxhop/video/upload/so_0/v1789676050/PortfolioPrintingM.jpg",
     description: "Quality printing project.",
     type: "video",
     showInAll: false,
@@ -132,6 +148,8 @@ const projects = [
     category: "Printing",
     image:
       "https://res.cloudinary.com/regrxhop/video/upload/v1789676216/PortfolioPrintingN.mp4",
+    poster:
+      "https://res.cloudinary.com/regrxhop/video/upload/so_0/v1789676216/PortfolioPrintingN.jpg",
     description: "Quality printing project.",
     type: "video",
     showInAll: false,
@@ -142,6 +160,8 @@ const projects = [
     category: "Printing",
     image:
       "https://res.cloudinary.com/regrxhop/video/upload/v1789674292/PortfolioPrintingJ.mp4",
+    poster:
+      "https://res.cloudinary.com/regrxhop/video/upload/so_0/v1789674292/PortfolioPrintingJ.jpg",
     description: "Quality printing project.",
     type: "video",
     showInAll: false,
@@ -152,6 +172,8 @@ const projects = [
     category: "Printing",
     image:
       "https://res.cloudinary.com/regrxhop/video/upload/v1789668211/PortfolioPrintingA.mp4",
+    poster:
+      "https://res.cloudinary.com/regrxhop/video/upload/so_0/v1789668211/PortfolioPrintingA.jpg",
     description: "Quality printing project.",
     type: "video",
     showInAll: false,
@@ -170,7 +192,6 @@ const projects = [
   // ================================================================
   // BRANDING
   // ================================================================
-
   {
     title: "Corporate Branding",
     category: "Branding",
@@ -196,7 +217,6 @@ const projects = [
   // ================================================================
   // FRAMES
   // ================================================================
-
   {
     title: "Custom Decorative Frame",
     category: "Frames",
@@ -254,6 +274,8 @@ const projects = [
     category: "Frames",
     image:
       "https://res.cloudinary.com/regrxhop/video/upload/v1789707802/PortfolioFrame2.mp4",
+    poster:
+      "https://res.cloudinary.com/regrxhop/video/upload/so_0/v1789707802/PortfolioFrame2.jpg",
     description: "Beautiful custom frame project.",
     type: "video",
     showInAll: false,
@@ -322,12 +344,13 @@ const projects = [
   // ================================================================
   // APPAREL
   // ================================================================
-
   {
     title: "Custom Branded Apparel",
     category: "Apparel",
     image:
       "https://res.cloudinary.com/regrxhop/video/upload/v1789676413/PortfolioShowcase6.mp4",
+    poster:
+      "https://res.cloudinary.com/regrxhop/video/upload/so_0/v1789676413/PortfolioShowcase6.jpg",
     description:
       "Custom apparel created for businesses, events, and special occasions.",
     type: "video",
@@ -348,7 +371,6 @@ const projects = [
   // ================================================================
   // PROMOTIONAL
   // ================================================================
-
   {
     title: "Business Promotional Items",
     category: "Promotional",
@@ -469,6 +491,7 @@ function Portfolio() {
                     {project.type === "video" ? (
                       <video
                         src={project.image}
+                        poster={project.poster}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         controls
                         muted
@@ -489,7 +512,7 @@ function Portfolio() {
 
                     {/* Video Badge */}
                     {project.type === "video" && (
-                      <div className="absolute top-4 right-4 rounded-full bg-[#FE6B00] px-3 py-1.5 text-xs font-semibold text-white">
+                      <div className="absolute right-4 top-4 rounded-full bg-[#FE6B00] px-3 py-1.5 text-xs font-semibold text-white">
                         Video
                       </div>
                     )}
@@ -551,6 +574,7 @@ function Portfolio() {
                   {project.type === "video" ? (
                     <video
                       src={project.image}
+                      poster={project.poster}
                       className="h-full w-full object-cover"
                       controls
                       muted
@@ -618,6 +642,7 @@ function Portfolio() {
                   {project.type === "video" ? (
                     <video
                       src={project.image}
+                      poster={project.poster}
                       className="h-full w-full object-cover"
                       controls
                       muted
