@@ -1,4 +1,5 @@
-import aboutHeroImage from "../assets/images/About-img.png";
+const aboutHeroImage =
+  "https://res.cloudinary.com/regrxhop/image/upload/v1789676620/About-img.png";
 
 function About() {
   return (
@@ -6,7 +7,6 @@ function About() {
       {/* About Hero */}
       <section className="bg-[#F8F9FA] pt-28 pb-16 sm:pt-32 sm:pb-20 lg:pt-36 lg:pb-24">
         <div className="mx-auto grid max-w-[1280px] items-center gap-10 px-6 sm:px-8 lg:grid-cols-2 lg:gap-16 lg:px-12">
-          
           {/* Hero Content */}
           <div>
             <h1 className="max-w-[650px] text-[44px] font-bold leading-[1.05] tracking-[-1.8px] text-black sm:text-[54px] md:text-[60px] lg:text-[64px]">
@@ -31,25 +31,21 @@ function About() {
               <img
                 src={aboutHeroImage}
                 alt="Aiglink precision printing technology"
-                className="h-[320px] w-full object-cover sm:h-[400px] lg:h-[420px]"
-              />
+                className="h-[320px] w-full object-cover sm:h-[400px] lg:h-[420px]"/>
             </div>
           </div>
-
         </div>
       </section>
 
-        {/* Our Mission */}
+      {/* Our Mission */}
       <section className="bg-[#F3F4F6] px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
         <div className="mx-auto grid max-w-[1280px] items-center gap-10 lg:grid-cols-2 lg:gap-20">
-          
           {/* Mission Image */}
           <div className="overflow-hidden rounded-[18px]">
             <img
               src={aboutHeroImage}
               alt="Aiglink team working on printing projects"
-              className="h-[360px] w-full object-cover sm:h-[450px] lg:h-[520px]"
-            />
+              className="h-[360px] w-full object-cover sm:h-[450px] lg:h-[520px]"/>
           </div>
 
           {/* Mission Content */}
@@ -71,11 +67,10 @@ function About() {
               the market but anticipates the future needs of our clients.
             </p>
           </div>
-
         </div>
       </section>
 
-            {/* Core Values */}
+      {/* Core Values */}
       <section className="bg-white px-6 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
         <div className="mx-auto max-w-[1280px]">
           {/* Section Header */}

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { Menu, X } from "lucide-react";
 
-import logo from "../assets/images/aiglink-smart-logo-new.png";
+import { Link, NavLink } from "react-router-dom";
+
+import { Menu, X } from "lucide-react";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,7 +24,7 @@ function Navbar() {
           onClick={() => setIsMenuOpen(false)}
         >
           <img
-            src={logo}
+            src="https://res.cloudinary.com/regrxhop/image/upload/v1789676684/aiglink-smart-logo-new.png"
             alt="Aiglink Smart Printing"
             className="h-auto w-[105px] object-contain sm:w-[110px] lg:w-[115px]"
           />

@@ -81,8 +81,7 @@ function ServicesPreview() {
           {/* Desktop CTA */}
           <Link
             to="/services"
-            className="hidden shrink-0 items-center gap-2 text-sm font-semibold text-black transition-colors duration-200 hover:text-[#FE6B00] md:inline-flex"
-          >
+            className="hidden shrink-0 items-center gap-2 text-sm font-semibold text-black transition-colors duration-200 hover:text-[#FE6B00] md:inline-flex">
             Explore All Services
             <ArrowRight size={17} />
           </Link>

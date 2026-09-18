@@ -1,4 +1,5 @@
 import { Mail, MapPin, Phone, ArrowUpRight } from "lucide-react";
+
 import {
   FaWhatsapp,
   FaInstagram,
@@ -8,7 +9,7 @@ import {
 
 import { Link } from "react-router-dom";
 
-import logo from "../assets/images/aiglink-logo-new.PNG";
+const logo = "https://res.cloudinary.com/regrxhop/image/upload/v1789676660/aiglink-logo-footer.png";
 
 function Footer() {
   const quickLinks = [
@@ -141,6 +142,7 @@ function Footer() {
 
                 <div>
                   <p className="text-xs text-gray-500">Call Us</p>
+
                   <p className="mt-1 text-sm text-gray-300 transition-colors group-hover:text-[#FE6B00]">
                     +234 807 340 0086
                   </p>
@@ -159,6 +161,7 @@ function Footer() {
 
                 <div>
                   <p className="text-xs text-gray-500">WhatsApp</p>
+
                   <p className="mt-1 text-sm text-gray-300 transition-colors group-hover:text-[#25D366]">
                     Chat with us
                   </p>
@@ -175,6 +178,7 @@ function Footer() {
 
                 <div>
                   <p className="text-xs text-gray-500">Email</p>
+
                   <p className="mt-1 break-all text-sm text-gray-300 transition-colors group-hover:text-[#FE6B00]">
                     aiglinksmartprinting@gmail.com
                   </p>
@@ -189,6 +193,7 @@ function Footer() {
 
                 <div>
                   <p className="text-xs text-gray-500">Location</p>
+
                   <p className="mt-1 text-sm leading-6 text-gray-300">
                     44, Idiroko Road,
                     <br />

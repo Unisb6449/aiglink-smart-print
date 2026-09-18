@@ -18,7 +18,8 @@ const projects = [
   {
     title: "Premium Business Prints",
     category: "Printing",
-    image: "/src/assets/images/PortfolioShowcase2.jpg",
+    image:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789677112/PortfolioShowcase2.jpg",
     description:
       "High-quality business printing designed to give your brand a professional look.",
     type: "image",
@@ -28,7 +29,8 @@ const projects = [
   {
     title: "Professional Print Materials",
     category: "Printing",
-    image: "/src/assets/images/PortfolioShowcase1.jpg",
+    image:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789609745/PortfolioShowcase1.jpg",
     description:
       "Professional print materials produced with quality and attention to detail.",
     type: "image",
@@ -38,18 +40,18 @@ const projects = [
   {
     title: "Printing Project 3",
     category: "Printing",
-    image: "/src/assets/images/PortfolioPrintingI.jpg",
+    image:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789706070/PortfolioPrintingI.jpg",
     description: "Quality printing project.",
     type: "image",
     showInAll: false,
   },
 
-  // -------------------- PRINTING VIDEOS --------------------
-
   {
     title: "Printing Project 4",
     category: "Printing",
-    image: "/src/assets/images/videos/PortfolioPrintingC.mp4",
+    image:
+      "https://res.cloudinary.com/regrxhop/video/upload/v1789706921/PortfolioPrintingC.mp4",
     description: "Professional printing project.",
     type: "video",
     showInAll: false,
@@ -58,7 +60,8 @@ const projects = [
   {
     title: "Printing Project 5",
     category: "Printing",
-    image: "/src/assets/images/videos/PortfolioPrintingD.mp4",
+    image:
+      "https://res.cloudinary.com/regrxhop/video/upload/v1789668452/PortfolioPrintingD.mp4",
     description: "Professional printing project.",
     type: "video",
     showInAll: false,
@@ -67,7 +70,8 @@ const projects = [
   {
     title: "Printing Project 6",
     category: "Printing",
-    image: "/src/assets/images/videos/PortfolioPrintingB.mp4",
+    image:
+      "https://res.cloudinary.com/regrxhop/video/upload/v1789667013/PortfolioPrinting2.mp4",
     description: "Quality printing project.",
     type: "video",
     showInAll: false,
@@ -76,7 +80,8 @@ const projects = [
   {
     title: "Printing Project 7",
     category: "Printing",
-    image: "/src/assets/images/videos/PortfolioPrintingE.mp4",
+    image:
+      "https://res.cloudinary.com/regrxhop/video/upload/v1789671417/PortfolioPrintingE.mp4",
     description: "Quality printing project.",
     type: "video",
     showInAll: false,
@@ -85,7 +90,8 @@ const projects = [
   {
     title: "Printing Project 8",
     category: "Printing",
-    image: "/src/assets/images/videos/PortfolioPrintingF.mp4",
+    image:
+      "https://res.cloudinary.com/regrxhop/video/upload/v1789671773/PortfolioPrintingF.mp4",
     description: "Quality printing project.",
     type: "video",
     showInAll: false,
@@ -94,7 +100,8 @@ const projects = [
   {
     title: "Printing Project 9",
     category: "Printing",
-    image: "/src/assets/images/videos/PortfolioPrintingG.mp4",
+    image:
+      "https://res.cloudinary.com/regrxhop/video/upload/v1789675316/PortfolioPrintingK.mp4",
     description: "Quality printing project.",
     type: "video",
     showInAll: false,
@@ -103,7 +110,8 @@ const projects = [
   {
     title: "Printing Project 10",
     category: "Printing",
-    image: "/src/assets/images/videos/PortfolioPrintingL.mp4",
+    image:
+      "https://res.cloudinary.com/regrxhop/video/upload/v1789675584/PortfolioPrintingL.mp4",
     description: "Quality printing project.",
     type: "video",
     showInAll: false,
@@ -112,7 +120,8 @@ const projects = [
   {
     title: "Printing Project 11",
     category: "Printing",
-    image: "/src/assets/images/videos/PortfolioPrintingM.mp4",
+    image:
+      "https://res.cloudinary.com/regrxhop/video/upload/v1789676050/PortfolioPrintingM.mp4",
     description: "Quality printing project.",
     type: "video",
     showInAll: false,
@@ -121,7 +130,8 @@ const projects = [
   {
     title: "Printing Project 12",
     category: "Printing",
-    image: "/src/assets/images/videos/PortfolioPrintingN.mp4",
+    image:
+      "https://res.cloudinary.com/regrxhop/video/upload/v1789676216/PortfolioPrintingN.mp4",
     description: "Quality printing project.",
     type: "video",
     showInAll: false,
@@ -130,7 +140,8 @@ const projects = [
   {
     title: "Printing Project 13",
     category: "Printing",
-    image: "/src/assets/images/videos/PortfolioPrintingJ.mp4",
+    image:
+      "https://res.cloudinary.com/regrxhop/video/upload/v1789674292/PortfolioPrintingJ.mp4",
     description: "Quality printing project.",
     type: "video",
     showInAll: false,
@@ -139,7 +150,8 @@ const projects = [
   {
     title: "Printing Project 14",
     category: "Printing",
-    image: "/src/assets/images/videos/PortfolioPrintingA.mp4",
+    image:
+      "https://res.cloudinary.com/regrxhop/video/upload/v1789668211/PortfolioPrintingA.mp4",
     description: "Quality printing project.",
     type: "video",
     showInAll: false,
@@ -148,7 +160,8 @@ const projects = [
   {
     title: "Printing Project 15",
     category: "Printing",
-    image: "/src/assets/images/PortfolioPrintingF.jpg",
+    image:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789677027/PortfolioPrintingF.jpg",
     description: "Quality printing project.",
     type: "image",
     showInAll: false,
@@ -161,7 +174,8 @@ const projects = [
   {
     title: "Corporate Branding",
     category: "Branding",
-    image: "/src/assets/images/aiglink.png",
+    image:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789676656/Aiglink.png",
     description:
       "Professional branding solutions created to give businesses a strong visual identity.",
     type: "image",
@@ -171,7 +185,8 @@ const projects = [
   {
     title: "Creative Brand Materials",
     category: "Branding",
-    image: "/src/assets/images/Devrise-Tech.png",
+    image:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789676740/Devrise-Tech.png",
     description:
       "Creative branded materials designed to make your business stand out.",
     type: "image",
@@ -185,7 +200,8 @@ const projects = [
   {
     title: "Custom Decorative Frame",
     category: "Frames",
-    image: "/src/assets/images/PortfolioShowcase3.jpeg",
+    image:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789676904/PortfolioFrame8.jpg",
     description:
       "Beautiful custom frames designed to preserve and display special moments.",
     type: "image",
@@ -195,7 +211,8 @@ const projects = [
   {
     title: "Graduation Photo Frame",
     category: "Frames",
-    image: "/src/assets/images/PortfolioShowcase4.jpeg",
+    image:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789677131/PortfolioShowcase4.jpg",
     description:
       "Elegant graduation frames designed to preserve memorable achievements.",
     type: "image",
@@ -205,7 +222,8 @@ const projects = [
   {
     title: "Frame Project 3",
     category: "Frames",
-    image: "/src/assets/images/PortfolioFrame12.jpeg",
+    image:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789676959/PortfolioFrame12.jpg",
     description: "Beautiful custom frame project.",
     type: "image",
     showInAll: false,
@@ -214,7 +232,8 @@ const projects = [
   {
     title: "Frame Project 4",
     category: "Frames",
-    image: "/src/assets/images/PortfolioFrame10.jpeg",
+    image:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789676934/PortfolioFrame10.jpg",
     description: "Beautiful custom frame project.",
     type: "image",
     showInAll: false,
@@ -223,7 +242,8 @@ const projects = [
   {
     title: "Frame Project 5",
     category: "Frames",
-    image: "/src/assets/images/PortfolioFrame11.jpeg",
+    image:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789676946/PortfolioFrame11.jpg",
     description: "Beautiful custom frame project.",
     type: "image",
     showInAll: false,
@@ -232,7 +252,8 @@ const projects = [
   {
     title: "Frame Project 6",
     category: "Frames",
-    image: "/src/assets/images/PortfolioFrame2.mp4",
+    image:
+      "https://res.cloudinary.com/regrxhop/video/upload/v1789707802/PortfolioFrame2.mp4",
     description: "Beautiful custom frame project.",
     type: "video",
     showInAll: false,
@@ -241,7 +262,8 @@ const projects = [
   {
     title: "Frame Project 7",
     category: "Frames",
-    image: "/src/assets/images/PortfolioFrame3.jpeg",
+    image:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789676868/PortfolioFrame3.jpg",
     description: "Beautiful custom frame project.",
     type: "image",
     showInAll: false,
@@ -250,7 +272,8 @@ const projects = [
   {
     title: "Frame Project 8",
     category: "Frames",
-    image: "/src/assets/images/PortfolioFrame5.jpeg",
+    image:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789676870/PortfolioFrame5.jpg",
     description: "Beautiful custom frame project.",
     type: "image",
     showInAll: false,
@@ -259,7 +282,8 @@ const projects = [
   {
     title: "Frame Project 9",
     category: "Frames",
-    image: "/src/assets/images/PortfolioFrame9.jpeg",
+    image:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789676924/PortfolioFrame9.jpg",
     description: "Beautiful custom frame project.",
     type: "image",
     showInAll: false,
@@ -268,7 +292,8 @@ const projects = [
   {
     title: "Frame Project 10",
     category: "Frames",
-    image: "/src/assets/images/PortfolioFrame7.jpeg",
+    image:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789676891/PortfolioFrame7.jpg",
     description: "Beautiful custom frame project.",
     type: "image",
     showInAll: false,
@@ -277,7 +302,8 @@ const projects = [
   {
     title: "Frame Project 11",
     category: "Frames",
-    image: "/src/assets/images/PortfolioFrame6.jpeg",
+    image:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789676877/PortfolioFrame6.jpg",
     description: "Beautiful custom frame project.",
     type: "image",
     showInAll: false,
@@ -286,7 +312,8 @@ const projects = [
   {
     title: "Frame Project 12",
     category: "Frames",
-    image: "/src/assets/images/Frame-hero.png",
+    image:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789676806/Frame-hero.png",
     description: "Beautiful custom frame project.",
     type: "image",
     showInAll: false,
@@ -299,7 +326,8 @@ const projects = [
   {
     title: "Custom Branded Apparel",
     category: "Apparel",
-    image: "/src/assets/images/videos/PortfolioShowcase6.mp4",
+    image:
+      "https://res.cloudinary.com/regrxhop/video/upload/v1789676413/PortfolioShowcase6.mp4",
     description:
       "Custom apparel created for businesses, events, and special occasions.",
     type: "video",
@@ -309,7 +337,8 @@ const projects = [
   {
     title: "Branded Event Wear",
     category: "Apparel",
-    image: "/src/assets/images/PortfolioShowcase7.jpeg",
+    image:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789677129/PortfolioShowcase7.jpg",
     description:
       "Branded event wear designed to create a unified and professional appearance.",
     type: "image",
@@ -323,7 +352,8 @@ const projects = [
   {
     title: "Business Promotional Items",
     category: "Promotional",
-    image: "/src/assets/images/Promotional1.png",
+    image:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789677181/Promotional1.png",
     description:
       "Custom promotional products designed to increase brand visibility.",
     type: "image",
@@ -333,7 +363,8 @@ const projects = [
   {
     title: "Custom Promotional Products",
     category: "Promotional",
-    image: "/src/assets/images/Promotional2.png",
+    image:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789677195/Promotional2.png",
     description:
       "Creative promotional products designed for businesses and events.",
     type: "image",
@@ -344,13 +375,7 @@ const projects = [
 function Portfolio() {
   const [activeCategory, setActiveCategory] = useState("All");
 
-  // ================================================================
-  // IMPORTANT:
-  // All shows ONLY the projects marked showInAll: true.
-  // This keeps All at exactly 9 curated projects even when
-  // more projects are added to Printing, Frames, etc.
-  // ================================================================
-
+  // All contains only the 9 curated projects.
   const curatedAllProjects = projects.filter(
     (project) => project.showInAll === true,
   );
@@ -358,9 +383,7 @@ function Portfolio() {
   const filteredProjects =
     activeCategory === "All"
       ? curatedAllProjects
-      : projects.filter(
-          (project) => project.category === activeCategory,
-        );
+      : projects.filter((project) => project.category === activeCategory);
 
   return (
     <div className="min-h-screen bg-white text-black">
@@ -466,7 +489,7 @@ function Portfolio() {
 
                     {/* Video Badge */}
                     {project.type === "video" && (
-                      <div className="absolute bottom-4 left-4 rounded-full bg-[#FE6B00] px-3 py-1.5 text-xs font-semibold text-white">
+                      <div className="absolute top-4 right-4 rounded-full bg-[#FE6B00] px-3 py-1.5 text-xs font-semibold text-white">
                         Video
                       </div>
                     )}
@@ -592,11 +615,21 @@ function Portfolio() {
                 <div
                   key={`frame-feature-${project.title}-${index}`}
                   className="aspect-square overflow-hidden rounded-2xl bg-gray-100">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-                    loading="lazy"/>
+                  {project.type === "video" ? (
+                    <video
+                      src={project.image}
+                      className="h-full w-full object-cover"
+                      controls
+                      muted
+                      playsInline
+                      preload="metadata"/>
+                  ) : (
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                      loading="lazy"/>
+                  )}
                 </div>
               ))}
           </div>

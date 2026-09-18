@@ -35,15 +35,13 @@ function Benefits() {
             return (
               <div
                 key={benefit.title}
-                className="flex min-h-[145px] flex-col items-center justify-center gap-4 px-5 py-8 text-center transition-all duration-200 hover:bg-[#FFF9F5]"
-              >
+                className="flex min-h-[145px] flex-col items-center justify-center gap-4 px-5 py-8 text-center transition-all duration-200 hover:bg-[#FFF9F5]">
                 {/* Icon */}
                 <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#FFF0E5]">
                   <Icon
                     size={21}
                     strokeWidth={2}
-                    className="text-[#FE6B00]"
-                  />
+                    className="text-[#FE6B00]"/>
                 </div>
 
                 {/* Title */}

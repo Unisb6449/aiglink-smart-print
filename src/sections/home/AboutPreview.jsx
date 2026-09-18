@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+
 import { Award, BriefcaseBusiness, Users } from "lucide-react";
 
-import aboutImage from "../../assets/images/About-img.png";
+const aboutImage = "https://res.cloudinary.com/regrxhop/image/upload/v1789676620/About-img.png";
 
 function AnimatedNumber({ value, suffix = "" }) {
   const [count, setCount] = useState(0);
@@ -69,8 +70,7 @@ function AboutPreview() {
             <img
               src={aboutImage}
               alt="Aiglink printing and branding production"
-              className="h-[340px] w-full object-cover sm:h-[430px] lg:h-[500px]"
-            />
+              className="h-[340px] w-full object-cover sm:h-[430px] lg:h-[500px]"/>
           </div>
         </div>
 
@@ -104,14 +104,12 @@ function AboutPreview() {
               return (
                 <div
                   key={stat.label}
-                  className="flex flex-col items-start"
-                >
+                  className="flex flex-col items-start">
                   <div className="mb-2 flex h-8 w-8 items-center justify-center rounded-full bg-[#FFF0E5]">
                     <Icon
                       size={16}
                       strokeWidth={2}
-                      className="text-[#FE6B00]"
-                    />
+                      className="text-[#FE6B00]"/>
                   </div>
 
                   <p className="text-[25px] font-bold leading-none text-[#FE6B00] sm:text-[28px]">

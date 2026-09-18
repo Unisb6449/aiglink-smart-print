@@ -1,9 +1,15 @@
 import { ArrowRight, ExternalLink } from "lucide-react";
+
 import { Link } from "react-router-dom";
 
-import aiglinkImage from "../../assets/images/Aiglink.png";
-import digitalPrintingImage from "../../assets/images/Digital-Printing.png";
-import Promotional2 from "../../assets/images/Promotional2.png";
+const aiglinkImage =
+  "https://res.cloudinary.com/regrxhop/image/upload/v1789676656/Aiglink.png";
+
+const digitalPrintingImage =
+  "https://res.cloudinary.com/regrxhop/image/upload/v1789676774/Digital-Printing.png";
+
+const Promotional2 =
+  "https://res.cloudinary.com/regrxhop/image/upload/v1789677195/Promotional2.png";
 
 const projects = [
   {
@@ -11,11 +17,13 @@ const projects = [
     category: "Brand Identity",
     image: aiglinkImage,
   },
+
   {
     title: "Premium Business Prints",
     category: "Digital Printing",
     image: digitalPrintingImage,
   },
+
   {
     title: "Creative Brand Materials",
     category: "Creative Branding",

@@ -1,29 +1,15 @@
 import { useEffect, useState } from "react";
+
 import { ChevronLeft, ChevronRight } from "lucide-react";
+
 import { Link } from "react-router-dom";
-
-const assets = import.meta.glob(
-  "../../assets/**/*.{png,jpg,jpeg,webp,mp4,webm}",
-  {
-    eager: true,
-    query: "?url",
-    import: "default",
-  },
-);
-
-const getAsset = (fileName) => {
-  const entry = Object.entries(assets).find(([path]) =>
-    path.toLowerCase().endsWith(fileName.toLowerCase()),
-  );
-
-  return entry ? entry[1] : "";
-};
 
 const slides = [
   {
     id: 1,
     type: "video",
-    media: getAsset("Aiglink-Hero-Video.mp4"),
+    media:
+      "https://res.cloudinary.com/regrxhop/video/upload/v1789612019/Aiglink-Hero-Video.mp4",
     label: "Aiglink Smart Printing",
     title: "Bringing Your Ideas to Life",
     highlight: "Through Quality Printing.",
@@ -33,7 +19,8 @@ const slides = [
   {
     id: 2,
     type: "image",
-    media: getAsset("Branding-hero.png"),
+    media:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789676705/Branding-hero.png",
     label: "Creative Branding",
     title: "Make Your Brand",
     highlight: "Stand Out.",
@@ -43,7 +30,8 @@ const slides = [
   {
     id: 3,
     type: "video",
-    media: getAsset("Printing-hero.mp4"),
+    media:
+      "https://res.cloudinary.com/regrxhop/video/upload/v1789611557/Printing-hero.mp4",
     label: "Premium Printing",
     title: "Quality Printing",
     highlight: "Made to Impress.",
@@ -53,7 +41,8 @@ const slides = [
   {
     id: 4,
     type: "image",
-    media: getAsset("Frame-hero.png"),
+    media:
+      "https://res.cloudinary.com/regrxhop/image/upload/v1789676806/Frame-hero.png",
     label: "Premium Frames",
     title: "Preserve Your Memories",
     highlight: "With Beautiful Frames.",
@@ -86,8 +75,7 @@ function Hero() {
   return (
     <section
       className="relative min-h-[680px] overflow-hidden bg-black sm:min-h-[720px] lg:min-h-[780px]"
-      aria-label="Aiglink featured services"
-    >
+      aria-label="Aiglink featured services">
       {/* =========================
           BACKGROUND MEDIA
       ========================== */}
@@ -102,8 +90,7 @@ function Hero() {
               loop
               playsInline
               className="h-full w-full object-cover"
-              aria-label={slide.label}
-            />
+              aria-label={slide.label}/>
           ) : (
             <div className="h-full w-full bg-black" />
           )
@@ -111,8 +98,7 @@ function Hero() {
           <img
             src={slide.media}
             alt={slide.label}
-            className="h-full w-full object-cover"
-          />
+            className="h-full w-full object-cover"/>
         ) : (
           <div className="h-full w-full bg-black" />
         )}
@@ -138,9 +124,7 @@ function Hero() {
             <h1 className="text-[42px] font-bold leading-[1.05] tracking-[-1.8px] text-white sm:text-[54px] md:text-[64px] lg:text-[76px]">
               {slide.title}
               <br />
-              <span className="text-[#FE6B00]">
-                {slide.highlight}
-              </span>
+              <span className="text-[#FE6B00]">{slide.highlight}</span>
             </h1>
 
             {/* Description */}
@@ -152,15 +136,13 @@ function Hero() {
             <div className="relative z-30 mt-8 flex flex-col gap-4 sm:flex-row">
               <Link
                 to="/contact"
-                className="inline-flex items-center justify-center rounded-full bg-[#FE6B00] px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#e85f00] hover:shadow-lg"
-              >
+                className="inline-flex items-center justify-center rounded-full bg-[#FE6B00] px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#e85f00] hover:shadow-lg">
                 Get a Quote
               </Link>
 
               <Link
                 to="/services"
-                className="inline-flex items-center justify-center rounded-full border border-white/70 px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:border-white hover:bg-white hover:text-black"
-              >
+                className="inline-flex items-center justify-center rounded-full border border-white/70 px-7 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:border-white hover:bg-white hover:text-black">
                 Explore Our Services
               </Link>
             </div>
@@ -175,8 +157,7 @@ function Hero() {
         type="button"
         onClick={prevSlide}
         aria-label="Previous slide"
-        className="absolute left-3 top-1/2 z-40 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/35 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:border-[#FE6B00] hover:bg-[#FE6B00] sm:left-5 lg:left-7"
-      >
+        className="absolute left-3 top-1/2 z-40 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/35 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:border-[#FE6B00] hover:bg-[#FE6B00] sm:left-5 lg:left-7">
         <ChevronLeft size={21} />
       </button>
 
@@ -187,8 +168,7 @@ function Hero() {
         type="button"
         onClick={nextSlide}
         aria-label="Next slide"
-        className="absolute right-3 top-1/2 z-40 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/35 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:border-[#FE6B00] hover:bg-[#FE6B00] sm:right-5 lg:right-7"
-      >
+        className="absolute right-3 top-1/2 z-40 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/30 bg-black/35 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:border-[#FE6B00] hover:bg-[#FE6B00] sm:right-5 lg:right-7">
         <ChevronRight size={21} />
       </button>
 
@@ -220,8 +200,7 @@ function Hero() {
               currentSlide === index
                 ? "w-8 bg-[#FE6B00]"
                 : "w-2.5 bg-white/70 hover:bg-white"
-            }`}
-          />
+            }`}/>
         ))}
       </div>
     </section>
