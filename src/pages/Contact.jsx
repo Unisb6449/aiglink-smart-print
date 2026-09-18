@@ -35,73 +35,74 @@ function Contact() {
   ];
 
   const updateField = (field, value) => {
-    setFormData((prev) => ({
-      ...prev,
+    setFormData((previous) => ({
+      ...previous,
       [field]: value,
     }));
 
-    if (errors[field]) {
-      setErrors((prev) => ({
-        ...prev,
-        [field]: "",
-      }));
-    }
-
-    if (submitError) {
-      setSubmitError("");
-    }
+    setErrors((previous) => ({
+      ...previous,
+      [field]: "",
+    }));
   };
 
-  const validateStep = () => {
+  const validateStepOne = () => {
     const newErrors = {};
 
-    if (currentStep === 1) {
-      if (!formData.fullName.trim()) {
-        newErrors.fullName = "Full name is required.";
-      }
-
-      if (!formData.email.trim()) {
-        newErrors.email = "Email address is required.";
-      } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
-        newErrors.email = "Please enter a valid email address.";
-      }
-
-      if (!formData.phone.trim()) {
-        newErrors.phone = "Phone number is required.";
-      }
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = "Please enter your full name.";
     }
 
-    if (currentStep === 2) {
-      if (!formData.service) {
-        newErrors.service = "Please select a service.";
-      }
+    if (!formData.email.trim()) {
+      newErrors.email = "Please enter your email address.";
+    } else if (!/^\S+@\S+\.\S+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address.";
+    }
 
-      if (!formData.projectDescription.trim()) {
-        newErrors.projectDescription =
-          "Please tell us about your project.";
-      }
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Please enter your phone number.";
     }
 
     setErrors(newErrors);
-
     return Object.keys(newErrors).length === 0;
   };
 
-  const nextStep = () => {
-    if (!validateStep()) return;
+  const validateStepTwo = () => {
+    const newErrors = {};
 
-    setCurrentStep((prev) => Math.min(prev + 1, 4));
+    if (!formData.service) {
+      newErrors.service = "Please select a service.";
+    }
+
+    if (!formData.projectDescription.trim()) {
+      newErrors.projectDescription =
+        "Please tell us a little about your project.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleNext = () => {
+    if (currentStep === 1) {
+      if (!validateStepOne()) return;
+    }
+
+    if (currentStep === 2) {
+      if (!validateStepTwo()) return;
+    }
+
+    setCurrentStep((previous) => Math.min(previous + 1, 4));
     setSubmitError("");
   };
 
-  const previousStep = () => {
-    setCurrentStep((prev) => Math.max(prev - 1, 1));
+  const handlePrevious = () => {
+    setCurrentStep((previous) => Math.max(previous - 1, 1));
     setSubmitError("");
   };
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files?.[0] || null;
-
     updateField("file", selectedFile);
   };
 
@@ -122,41 +123,59 @@ function Contact() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!validateStep()) return;
+    if (currentStep !== 4) {
+      return;
+    }
 
     setIsSending(true);
     setSubmitError("");
 
     try {
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+      // Developer-only debugging information
+      console.log("EmailJS Configuration:");
+      console.log("Service ID:", serviceId);
+      console.log("Template ID:", templateId);
+      console.log(
+        "Public Key:",
+        publicKey ? `${publicKey.substring(0, 5)}...` : "MISSING",
+      );
+
       const templateParams = {
-        full_name: formData.fullName,
-        company_name: formData.companyName || "Not provided",
+        fullName: formData.fullName,
+        companyName: formData.companyName || "Not provided",
         email: formData.email,
         phone: formData.phone,
         service: formData.service,
-        project_description: formData.projectDescription,
         quantity: formData.quantity || "Not provided",
         deadline: formData.deadline || "Not provided",
-        additional_requirements:
-          formData.additionalRequirements || "None",
+        projectDescription: formData.projectDescription,
+        additionalRequirements:
+          formData.additionalRequirements || "None provided",
       };
 
-      await emailjs.send(
-        "YOUR_SERVICE_ID",
-        "YOUR_TEMPLATE_ID",
-        templateParams,
-        "YOUR_PUBLIC_KEY",
-      );
+      // Developer-only debugging information
+      console.log("EmailJS Template Parameters:", templateParams);
+
+      await emailjs.send(serviceId, templateId, templateParams, {
+        publicKey,
+      });
+
+      console.log("EmailJS: Request sent successfully.");
 
       setSubmitted(true);
     } catch (error) {
-      // Technical details remain available to the developer.
-      // They are NOT shown to the client.
+      // Technical error stays in the browser console.
+      // The client will NOT see this information.
       console.error("EmailJS submission error:", error);
       console.error("EmailJS status:", error?.status);
       console.error("EmailJS text:", error?.text);
       console.error("EmailJS message:", error?.message);
 
+      // Client-friendly message only
       setSubmitError(
         "We couldn't complete your request at the moment. Please try again.",
       );
@@ -167,644 +186,707 @@ function Contact() {
 
   if (submitted) {
     return (
-      <section className="min-h-screen bg-[#F8F9FA] px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto flex min-h-[70vh] max-w-3xl items-center justify-center">
-          <div className="w-full rounded-3xl bg-white p-8 text-center shadow-sm sm:p-12">
-            <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[#FE6B00]/10">
-              <svg
-                className="h-10 w-10 text-[#FE6B00]"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
+      <main>
+        <section className="flex min-h-[75vh] items-center justify-center bg-[#F8F9FA] px-6 py-24">
+          <div className="w-full max-w-2xl rounded-[24px] bg-white p-8 text-center shadow-lg sm:p-12">
+            <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-orange-100">
+              <span className="text-4xl text-[#FE6B00]">✓</span>
             </div>
 
-            <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl">
+            <p className="mt-6 text-sm font-semibold uppercase tracking-[3px] text-[#FE6B00]">
               Request Sent
-            </h1>
-
-            <p className="mt-4 text-lg text-gray-600">
-              Thank You, {formData.fullName}!
             </p>
 
-            <p className="mx-auto mt-3 max-w-xl text-gray-500">
-              Your request has been received successfully. Our team
-              will review your project details and get back to you
-              shortly.
+            <h1 className="mt-3 text-3xl font-bold tracking-tight text-black sm:text-4xl">
+              Thank You, {formData.fullName}!
+            </h1>
+
+            <p className="mx-auto mt-5 max-w-xl text-[15px] leading-7 text-[#5B6470] sm:text-base">
+              Your quote request has been successfully sent to Aiglink Smart
+              Printing. We&apos;ll review your project and get back to you as
+              soon as possible.
             </p>
 
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <a
                 href="/"
-                className="rounded-xl bg-gray-900 px-6 py-3 font-semibold text-white transition hover:bg-gray-800"
+                className="rounded-full bg-[#FE6B00] px-7 py-3.5 text-sm font-semibold text-black transition hover:bg-orange-500"
               >
                 Back to Home
               </a>
 
               <a
-                href="https://wa.me/2349114301414"
+                href="https://wa.me/2349114301414?text=Hello%20Aiglink%2C%20I%20just%20submitted%20a%20quote%20request%20through%20your%20website"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-xl bg-[#FE6B00] px-6 py-3 font-semibold text-white transition hover:bg-[#e55f00]"
+                className="rounded-full border border-gray-200 px-7 py-3.5 text-sm font-semibold text-black transition hover:border-[#FE6B00] hover:text-[#FE6B00]"
               >
                 Chat on WhatsApp
               </a>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
     );
   }
 
   return (
-    <section className="bg-[#F8F9FA] px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
-      <div className="mx-auto max-w-5xl">
-        {/* Header */}
-        <div className="mx-auto mb-12 max-w-2xl text-center">
-          <p className="mb-3 text-sm font-bold uppercase tracking-widest text-[#FE6B00]">
+    <main>
+      {/* Hero */}
+      <section className="bg-[#F8F9FA] pt-28 pb-16 sm:pt-32 sm:pb-20 lg:pt-36 lg:pb-24">
+        <div className="mx-auto max-w-[1280px] px-6 text-center sm:px-8 lg:px-12">
+          <p className="mb-4 text-sm font-semibold uppercase tracking-[3px] text-[#FE6B00]">
             Request a Quote
           </p>
 
-          <h1 className="text-3xl font-bold text-gray-900 sm:text-4xl lg:text-5xl">
-            Let’s Bring Your Ideas to Life.
+          <h1 className="mx-auto max-w-[850px] text-[44px] font-bold leading-[1.05] tracking-[-1.8px] text-black sm:text-[54px] md:text-[60px] lg:text-[64px]">
+            Let&apos;s Bring Your{" "}
+            <span className="text-[#FE6B00]">Ideas to Life.</span>
           </h1>
 
-          <p className="mt-4 text-base leading-7 text-gray-600 sm:text-lg">
-            Tell us what you need and our team will get back to you
-            with the right solution for your project.
+          <p className="mx-auto mt-6 max-w-[700px] text-[15px] leading-7 text-[#5B6470] sm:text-[16px]">
+            Tell us about your project and we&apos;ll provide a customized
+            solution tailored to your printing and branding needs.
           </p>
         </div>
+      </section>
 
-        {/* Progress */}
-        <div className="mb-10">
-          <div className="flex items-center justify-between">
-            {[1, 2, 3, 4].map((step) => (
-              <div
-                key={step}
-                className="flex flex-1 items-center last:flex-none"
-              >
-                <div
-                  className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold transition ${
-                    currentStep >= step
-                      ? "bg-[#FE6B00] text-white"
-                      : "bg-gray-200 text-gray-500"
-                  }`}
-                >
-                  {step}
-                </div>
-
-                {step !== 4 && (
+      {/* Form Section */}
+      <section className="bg-white py-16 sm:py-20 lg:py-24">
+        <div className="mx-auto grid max-w-[1280px] gap-10 px-6 sm:px-8 lg:grid-cols-[1.6fr_0.8fr] lg:gap-16 lg:px-12">
+          {/* Form */}
+          <div className="rounded-[24px] border border-gray-100 bg-white p-6 shadow-sm sm:p-8 lg:p-10">
+            {/* Progress */}
+            <div className="mb-10">
+              <div className="flex items-center justify-between gap-2">
+                {[1, 2, 3, 4].map((step) => (
                   <div
-                    className={`mx-2 h-1 flex-1 rounded-full transition ${
-                      currentStep > step
-                        ? "bg-[#FE6B00]"
-                        : "bg-gray-200"
-                    }`}
-                  />
-                )}
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-3 grid grid-cols-4 text-center text-xs font-medium text-gray-500 sm:text-sm">
-            <span>Contact</span>
-            <span>Project</span>
-            <span>Files</span>
-            <span>Review</span>
-          </div>
-        </div>
-
-        <form
-          ref={formRef}
-          onSubmit={handleSubmit}
-          className="rounded-3xl bg-white p-6 shadow-sm sm:p-8 lg:p-10"
-        >
-          {/* STEP 1 */}
-          {currentStep === 1 && (
-            <div>
-              <div className="mb-8">
-                <h2 className="text-2xl font-bold text-gray-900">
-                  Contact Information
-                </h2>
-
-                <p className="mt-2 text-gray-500">
-                  Let us know how we can reach you.
-                </p>
-              </div>
-
-              <div className="grid gap-6 sm:grid-cols-2">
-                <div>
-                  <label className="mb-2 block text-sm font-semibold text-gray-700">
-                    Full Name *
-                  </label>
-
-                  <input
-                    type="text"
-                    value={formData.fullName}
-                    onChange={(e) =>
-                      updateField("fullName", e.target.value)
-                    }
-                    placeholder="Enter your full name"
-                    className={`w-full rounded-xl border px-4 py-3 outline-none transition focus:border-[#FE6B00] ${
-                      errors.fullName
-                        ? "border-red-400"
-                        : "border-gray-200"
-                    }`}
-                  />
-
-                  {errors.fullName && (
-                    <p className="mt-2 text-xs text-red-500">
-                      {errors.fullName}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="mb-2 block text-sm font-semibold text-gray-700">
-                    Company Name
-                  </label>
-
-                  <input
-                    type="text"
-                    value={formData.companyName}
-                    onChange={(e) =>
-                      updateField("companyName", e.target.value)
-                    }
-                    placeholder="Company name (optional)"
-                    className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-[#FE6B00]"
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-2 block text-sm font-semibold text-gray-700">
-                    Email Address *
-                  </label>
-
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) =>
-                      updateField("email", e.target.value)
-                    }
-                    placeholder="you@example.com"
-                    className={`w-full rounded-xl border px-4 py-3 outline-none transition focus:border-[#FE6B00] ${
-                      errors.email
-                        ? "border-red-400"
-                        : "border-gray-200"
-                    }`}
-                  />
-
-                  {errors.email && (
-                    <p className="mt-2 text-xs text-red-500">
-                      {errors.email}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="mb-2 block text-sm font-semibold text-gray-700">
-                    Phone Number *
-                  </label>
-
-                  <input
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) =>
-                      updateField("phone", e.target.value)
-                    }
-                    placeholder="+234..."
-                    className={`w-full rounded-xl border px-4 py-3 outline-none transition focus:border-[#FE6B00] ${
-                      errors.phone
-                        ? "border-red-400"
-                        : "border-gray-200"
-                    }`}
-                  />
-
-                  {errors.phone && (
-                    <p className="mt-2 text-xs text-red-500">
-                      {errors.phone}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div className="mt-8 flex justify-end">
-                <button
-                  type="button"
-                  onClick={nextStep}
-                  className="rounded-xl bg-[#FE6B00] px-7 py-3 font-semibold text-white transition hover:bg-[#e55f00]"
-                >
-                  Continue
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* STEP 2 */}
-          {currentStep === 2 && (
-            <div>
-              <div className="mb-8">
-                <h2 className="text-2xl font-bold text-gray-900">
-                  Project Details
-                </h2>
-
-                <p className="mt-2 text-gray-500">
-                  Tell us more about what you want us to create.
-                </p>
-              </div>
-
-              <div className="space-y-6">
-                <div>
-                  <label className="mb-2 block text-sm font-semibold text-gray-700">
-                    Service *
-                  </label>
-
-                  <select
-                    value={formData.service}
-                    onChange={(e) =>
-                      updateField("service", e.target.value)
-                    }
-                    className={`w-full rounded-xl border bg-white px-4 py-3 outline-none transition focus:border-[#FE6B00] ${
-                      errors.service
-                        ? "border-red-400"
-                        : "border-gray-200"
-                    }`}
+                    key={step}
+                    className="flex flex-1 items-center last:flex-none"
                   >
-                    <option value="">Select a service</option>
+                    <div
+                      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold transition ${
+                        currentStep >= step
+                          ? "bg-[#FE6B00] text-black"
+                          : "bg-gray-100 text-gray-400"
+                      }`}
+                    >
+                      {step}
+                    </div>
 
-                    {services.map((service) => (
-                      <option key={service} value={service}>
-                        {service}
-                      </option>
-                    ))}
-                  </select>
+                    {step !== 4 && (
+                      <div
+                        className={`mx-2 h-[2px] flex-1 transition ${
+                          currentStep > step
+                            ? "bg-[#FE6B00]"
+                            : "bg-gray-100"
+                        }`}
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
 
-                  {errors.service && (
-                    <p className="mt-2 text-xs text-red-500">
-                      {errors.service}
-                    </p>
-                  )}
-                </div>
+              <p className="mt-5 text-sm font-semibold text-black">
+                {
+                  [
+                    "Contact Information",
+                    "Project Details",
+                    "Upload Files",
+                    "Review & Submit",
+                  ][currentStep - 1]
+                }
+              </p>
+            </div>
 
-                <div>
-                  <label className="mb-2 block text-sm font-semibold text-gray-700">
-                    Project Description *
-                  </label>
-
-                  <textarea
-                    rows="5"
-                    value={formData.projectDescription}
-                    onChange={(e) =>
-                      updateField(
-                        "projectDescription",
-                        e.target.value,
-                      )
-                    }
-                    placeholder="Tell us about your project..."
-                    className={`w-full resize-none rounded-xl border px-4 py-3 outline-none transition focus:border-[#FE6B00] ${
-                      errors.projectDescription
-                        ? "border-red-400"
-                        : "border-gray-200"
-                    }`}
-                  />
-
-                  {errors.projectDescription && (
-                    <p className="mt-2 text-xs text-red-500">
-                      {errors.projectDescription}
-                    </p>
-                  )}
-                </div>
-
-                <div className="grid gap-6 sm:grid-cols-2">
-                  <div>
-                    <label className="mb-2 block text-sm font-semibold text-gray-700">
-                      Quantity
+            <form ref={formRef} onSubmit={handleSubmit}>
+              {/* STEP 1 */}
+              <div hidden={currentStep !== 1}>
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <div className="sm:col-span-2">
+                    <label
+                      htmlFor="fullName"
+                      className="mb-2 block text-sm font-semibold text-black"
+                    >
+                      Full Name *
                     </label>
 
                     <input
+                      id="fullName"
+                      name="fullName"
                       type="text"
-                      value={formData.quantity}
-                      onChange={(e) =>
-                        updateField("quantity", e.target.value)
+                      value={formData.fullName}
+                      onChange={(event) =>
+                        updateField("fullName", event.target.value)
                       }
-                      placeholder="e.g. 100 pieces"
-                      className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-[#FE6B00]"
+                      placeholder="Enter your full name"
+                      className={`w-full rounded-xl border bg-white px-4 py-3.5 text-sm text-black outline-none transition placeholder:text-gray-400 focus:border-[#FE6B00] focus:ring-2 focus:ring-orange-100 ${
+                        errors.fullName
+                          ? "border-red-400"
+                          : "border-gray-200"
+                      }`}
+                    />
+
+                    {errors.fullName && (
+                      <p className="mt-2 text-xs text-red-500">
+                        {errors.fullName}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="companyName"
+                      className="mb-2 block text-sm font-semibold text-black"
+                    >
+                      Company Name
+                    </label>
+
+                    <input
+                      id="companyName"
+                      name="companyName"
+                      type="text"
+                      value={formData.companyName}
+                      onChange={(event) =>
+                        updateField("companyName", event.target.value)
+                      }
+                      placeholder="Your company name"
+                      className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-black outline-none transition placeholder:text-gray-400 focus:border-[#FE6B00] focus:ring-2 focus:ring-orange-100"
                     />
                   </div>
 
                   <div>
-                    <label className="mb-2 block text-sm font-semibold text-gray-700">
-                      Deadline
+                    <label
+                      htmlFor="email"
+                      className="mb-2 block text-sm font-semibold text-black"
+                    >
+                      Email Address *
                     </label>
 
                     <input
-                      type="text"
-                      value={formData.deadline}
-                      onChange={(e) =>
-                        updateField("deadline", e.target.value)
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(event) =>
+                        updateField("email", event.target.value)
                       }
-                      placeholder="e.g. 2 weeks"
-                      className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-[#FE6B00]"
+                      placeholder="Enter your email address"
+                      className={`w-full rounded-xl border bg-white px-4 py-3.5 text-sm text-black outline-none transition placeholder:text-gray-400 focus:border-[#FE6B00] focus:ring-2 focus:ring-orange-100 ${
+                        errors.email ? "border-red-400" : "border-gray-200"
+                      }`}
+                    />
+
+                    {errors.email && (
+                      <p className="mt-2 text-xs text-red-500">
+                        {errors.email}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="sm:col-span-2">
+                    <label
+                      htmlFor="phone"
+                      className="mb-2 block text-sm font-semibold text-black"
+                    >
+                      Phone Number *
+                    </label>
+
+                    <input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={(event) =>
+                        updateField("phone", event.target.value)
+                      }
+                      placeholder="+234 000 000 0000"
+                      className={`w-full rounded-xl border bg-white px-4 py-3.5 text-sm text-black outline-none transition placeholder:text-gray-400 focus:border-[#FE6B00] focus:ring-2 focus:ring-orange-100 ${
+                        errors.phone ? "border-red-400" : "border-gray-200"
+                      }`}
+                    />
+
+                    {errors.phone && (
+                      <p className="mt-2 text-xs text-red-500">
+                        {errors.phone}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* STEP 2 */}
+              <div hidden={currentStep !== 2}>
+                <div className="space-y-5">
+                  <div>
+                    <label
+                      htmlFor="service"
+                      className="mb-2 block text-sm font-semibold text-black"
+                    >
+                      Service *
+                    </label>
+
+                    <select
+                      id="service"
+                      name="service"
+                      value={formData.service}
+                      onChange={(event) =>
+                        updateField("service", event.target.value)
+                      }
+                      className={`w-full rounded-xl border bg-white px-4 py-3.5 text-sm text-black outline-none transition focus:border-[#FE6B00] focus:ring-2 focus:ring-orange-100 ${
+                        errors.service
+                          ? "border-red-400"
+                          : "border-gray-200"
+                      }`}
+                    >
+                      <option value="">Select a service</option>
+
+                      {services.map((service) => (
+                        <option key={service} value={service}>
+                          {service}
+                        </option>
+                      ))}
+                    </select>
+
+                    {errors.service && (
+                      <p className="mt-2 text-xs text-red-500">
+                        {errors.service}
+                      </p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="projectDescription"
+                      className="mb-2 block text-sm font-semibold text-black"
+                    >
+                      Project Description *
+                    </label>
+
+                    <textarea
+                      id="projectDescription"
+                      name="projectDescription"
+                      rows="6"
+                      value={formData.projectDescription}
+                      onChange={(event) =>
+                        updateField(
+                          "projectDescription",
+                          event.target.value,
+                        )
+                      }
+                      placeholder="Tell us about your project, design requirements, preferred materials, colors, sizes, etc."
+                      className={`w-full resize-none rounded-xl border bg-white px-4 py-3.5 text-sm leading-6 text-black outline-none transition placeholder:text-gray-400 focus:border-[#FE6B00] focus:ring-2 focus:ring-orange-100 ${
+                        errors.projectDescription
+                          ? "border-red-400"
+                          : "border-gray-200"
+                      }`}
+                    />
+
+                    {errors.projectDescription && (
+                      <p className="mt-2 text-xs text-red-500">
+                        {errors.projectDescription}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <div>
+                      <label
+                        htmlFor="quantity"
+                        className="mb-2 block text-sm font-semibold text-black"
+                      >
+                        Quantity
+                      </label>
+
+                      <input
+                        id="quantity"
+                        name="quantity"
+                        type="text"
+                        value={formData.quantity}
+                        onChange={(event) =>
+                          updateField("quantity", event.target.value)
+                        }
+                        placeholder="e.g. 500 pieces"
+                        className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-black outline-none transition placeholder:text-gray-400 focus:border-[#FE6B00] focus:ring-2 focus:ring-orange-100"
+                      />
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="deadline"
+                        className="mb-2 block text-sm font-semibold text-black"
+                      >
+                        Preferred Deadline
+                      </label>
+
+                      <input
+                        id="deadline"
+                        name="deadline"
+                        type="date"
+                        value={formData.deadline}
+                        onChange={(event) =>
+                          updateField("deadline", event.target.value)
+                        }
+                        className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm text-black outline-none transition focus:border-[#FE6B00] focus:ring-2 focus:ring-orange-100"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="additionalRequirements"
+                      className="mb-2 block text-sm font-semibold text-black"
+                    >
+                      Additional Requirements
+                    </label>
+
+                    <textarea
+                      id="additionalRequirements"
+                      name="additionalRequirements"
+                      rows="4"
+                      value={formData.additionalRequirements}
+                      onChange={(event) =>
+                        updateField(
+                          "additionalRequirements",
+                          event.target.value,
+                        )
+                      }
+                      placeholder="Anything else we should know?"
+                      className="w-full resize-none rounded-xl border border-gray-200 bg-white px-4 py-3.5 text-sm leading-6 text-black outline-none transition placeholder:text-gray-400 focus:border-[#FE6B00] focus:ring-2 focus:ring-orange-100"
                     />
                   </div>
                 </div>
+              </div>
 
-                <div>
-                  <label className="mb-2 block text-sm font-semibold text-gray-700">
-                    Additional Requirements
+              {/* STEP 3 */}
+              <div hidden={currentStep !== 3}>
+                <div className="rounded-2xl border-2 border-dashed border-gray-200 bg-[#F8F9FA] p-6 text-center sm:p-10">
+                  <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-orange-100">
+                    <span className="text-2xl text-[#FE6B00]">↑</span>
+                  </div>
+
+                  <h2 className="mt-5 text-xl font-bold text-black">
+                    Upload Your Project Files
+                  </h2>
+
+                  <p className="mx-auto mt-3 max-w-lg text-sm leading-6 text-[#6B7280]">
+                    You can upload a design, reference image, document, or
+                    other project file. This step is completely optional.
+                  </p>
+
+                  <label
+                    htmlFor="attachment"
+                    className="mt-6 inline-flex cursor-pointer rounded-full bg-[#FE6B00] px-7 py-3.5 text-sm font-semibold text-black transition hover:bg-orange-500"
+                  >
+                    {formData.file ? "Change File" : "Choose File"}
                   </label>
 
-                  <textarea
-                    rows="4"
-                    value={formData.additionalRequirements}
-                    onChange={(e) =>
-                      updateField(
-                        "additionalRequirements",
-                        e.target.value,
-                      )
-                    }
-                    placeholder="Anything else we should know? (optional)"
-                    className="w-full resize-none rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-[#FE6B00]"
-                  />
-                </div>
-              </div>
-
-              <div className="mt-8 flex justify-between gap-4">
-                <button
-                  type="button"
-                  onClick={previousStep}
-                  className="rounded-xl border border-gray-200 px-6 py-3 font-semibold text-gray-700 transition hover:bg-gray-50"
-                >
-                  Back
-                </button>
-
-                <button
-                  type="button"
-                  onClick={nextStep}
-                  className="rounded-xl bg-[#FE6B00] px-7 py-3 font-semibold text-white transition hover:bg-[#e55f00]"
-                >
-                  Continue
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* STEP 3 */}
-          {currentStep === 3 && (
-            <div>
-              <div className="mb-8">
-                <h2 className="text-2xl font-bold text-gray-900">
-                  Upload Files
-                </h2>
-
-                <p className="mt-2 text-gray-500">
-                  You can upload a design, reference image, document,
-                  or other project file.
-                </p>
-              </div>
-
-              <div className="rounded-2xl border-2 border-dashed border-gray-200 p-8 text-center transition hover:border-[#FE6B00]/50">
-                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[#FE6B00]/10">
-                  <svg
-                    className="h-7 w-7 text-[#FE6B00]"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M12 16V4m0 0l-4 4m4-4l4 4M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"
-                    />
-                  </svg>
-                </div>
-
-                <h3 className="font-semibold text-gray-900">
-                  Upload your project file
-                </h3>
-
-                <p className="mt-2 text-sm text-gray-500">
-                  JPG, PNG, PDF, DOC, or other reference files
-                </p>
-
-                <label className="mt-5 inline-flex cursor-pointer rounded-xl bg-[#FE6B00] px-6 py-3 font-semibold text-white transition hover:bg-[#e55f00]">
-                  Choose File
-
                   <input
-                    type="file"
+                    id="attachment"
                     name="attachment"
+                    type="file"
                     onChange={handleFileChange}
-                    className="hidden"/>
-                </label>
+                    className="sr-only"
+                  />
 
-                {formData.file && (
-                  <div className="mx-auto mt-6 flex max-w-md items-center justify-between rounded-xl bg-gray-50 p-4 text-left">
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold text-gray-900">
-                        {formData.file.name}
-                      </p>
-
-                      <p className="mt-1 text-xs text-gray-500">
-                        File selected
-                      </p>
-                    </div>
-
-                    <button
-                      type="button"
-                      onClick={removeFile}
-                      className="ml-4 text-sm font-semibold text-red-500 hover:text-red-600">
-                      Remove
-                    </button>
-                  </div>
-                )}
-
-                <p className="mt-5 text-xs text-gray-400">
-                  File upload is optional. You can continue without
-                  attaching a file.
-                </p>
-              </div>
-
-              <div className="mt-8 flex justify-between gap-4">
-                <button
-                  type="button"
-                  onClick={previousStep}
-                  className="rounded-xl border border-gray-200 px-6 py-3 font-semibold text-gray-700 transition hover:bg-gray-50"
-                >
-                  Back
-                </button>
-
-                <button
-                  type="button"
-                  onClick={nextStep}
-                  className="rounded-xl bg-[#FE6B00] px-7 py-3 font-semibold text-white transition hover:bg-[#e55f00]">
-                  Continue
-                </button>
-              </div>
-            </div>
-          )}
-
-          {/* STEP 4 */}
-          {currentStep === 4 && (
-            <div>
-              <div className="mb-8">
-                <h2 className="text-2xl font-bold text-gray-900">
-                  Review & Submit
-                </h2>
-
-                <p className="mt-2 text-gray-500">
-                  Please review your information before submitting your
-                  request.
-                </p>
-              </div>
-
-              <div className="space-y-6">
-                <div className="rounded-2xl bg-gray-50 p-5">
-                  <h3 className="mb-4 font-bold text-gray-900">
-                    Contact Information
-                  </h3>
-
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div>
-                      <p className="text-xs text-gray-400">Full Name</p>
-                      <p className="mt-1 text-sm font-medium text-gray-800">
-                        {formData.fullName}
-                      </p>
-                    </div>
-
-                    <div>
-                      <p className="text-xs text-gray-400">
-                        Company Name
-                      </p>
-                      <p className="mt-1 text-sm font-medium text-gray-800">
-                        {formData.companyName || "Not provided"}
-                      </p>
-                    </div>
-
-                    <div>
-                      <p className="text-xs text-gray-400">Email</p>
-                      <p className="mt-1 break-all text-sm font-medium text-gray-800">
-                        {formData.email}
-                      </p>
-                    </div>
-
-                    <div>
-                      <p className="text-xs text-gray-400">Phone</p>
-                      <p className="mt-1 text-sm font-medium text-gray-800">
-                        {formData.phone}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="rounded-2xl bg-gray-50 p-5">
-                  <h3 className="mb-4 font-bold text-gray-900">
-                    Project Details
-                  </h3>
-
-                  <div className="space-y-4">
-                    <div>
-                      <p className="text-xs text-gray-400">Service</p>
-                      <p className="mt-1 text-sm font-medium text-gray-800">
-                        {formData.service}
-                      </p>
-                    </div>
-
-                    <div>
-                      <p className="text-xs text-gray-400">
-                        Project Description
-                      </p>
-                      <p className="mt-1 whitespace-pre-wrap text-sm font-medium text-gray-800">
-                        {formData.projectDescription}
-                      </p>
-                    </div>
-
-                    <div className="grid gap-4 sm:grid-cols-2">
-                      <div>
-                        <p className="text-xs text-gray-400">
-                          Quantity
+                  {formData.file && (
+                    <div className="mx-auto mt-5 flex max-w-md items-center justify-between gap-4 rounded-xl border border-gray-200 bg-white p-4 text-left">
+                      <div className="min-w-0">
+                        <p className="truncate text-sm font-semibold text-black">
+                          {formData.file.name}
                         </p>
-                        <p className="mt-1 text-sm font-medium text-gray-800">
-                          {formData.quantity || "Not provided"}
+
+                        <p className="mt-1 text-xs text-gray-500">
+                          {(formData.file.size / 1024 / 1024).toFixed(2)} MB
                         </p>
                       </div>
 
-                      <div>
-                        <p className="text-xs text-gray-400">
-                          Deadline
-                        </p>
-                        <p className="mt-1 text-sm font-medium text-gray-800">
-                          {formData.deadline || "Not provided"}
-                        </p>
-                      </div>
+                      <button
+                        type="button"
+                        onClick={removeFile}
+                        className="shrink-0 text-sm font-semibold text-red-500 transition hover:text-red-600"
+                      >
+                        Remove
+                      </button>
                     </div>
-
-                    <div>
-                      <p className="text-xs text-gray-400">
-                        Additional Requirements
-                      </p>
-                      <p className="mt-1 whitespace-pre-wrap text-sm font-medium text-gray-800">
-                        {formData.additionalRequirements ||
-                          "None provided"}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="rounded-2xl bg-gray-50 p-5">
-                  <h3 className="font-bold text-gray-900">
-                    Attachment
-                  </h3>
-
-                  {formData.file ? (
-                    <p className="mt-2 break-all text-sm font-medium text-gray-800">
-                      {formData.file.name}
-                    </p>
-                  ) : (
-                    <p className="mt-2 text-sm text-gray-500">
-                      No file uploaded. You can continue without an
-                      attachment.
-                    </p>
                   )}
-                </div>
-              </div>
 
-              {submitError && (
-                <div className="mt-5 rounded-xl border border-red-200 bg-red-50 p-4">
-                  <p className="text-sm font-semibold text-red-600">
-                    {submitError}
+                  <p className="mt-5 text-xs text-gray-400">
+                    {formData.file
+                      ? "File selected successfully."
+                      : "No file uploaded. You can continue without an attachment."}
                   </p>
                 </div>
-              )}
+              </div>
 
-              <div className="mt-8 flex flex-col-reverse justify-between gap-4 sm:flex-row">
-                <button
-                  type="button"
-                  onClick={previousStep}
-                  disabled={isSending}
-                  className="rounded-xl border border-gray-200 px-6 py-3 font-semibold text-gray-700 transition hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50">
-                  Back
-                </button>
+              {/* STEP 4 */}
+              <div hidden={currentStep !== 4}>
+                <div>
+                  <h2 className="text-xl font-bold text-black">
+                    Review Your Request
+                  </h2>
 
-                <button
-                  type="submit"
-                  disabled={isSending}
-                  className="rounded-xl bg-[#FE6B00] px-7 py-3 font-semibold text-white transition hover:bg-[#e55f00] disabled:cursor-not-allowed disabled:opacity-70">
-                  {isSending ? "Sending Request..." : "Submit Request"}
-                </button>
+                  <p className="mt-2 text-sm leading-6 text-[#6B7280]">
+                    Please review your information before submitting your quote
+                    request.
+                  </p>
+
+                  <div className="mt-7 divide-y divide-gray-100 rounded-2xl border border-gray-100">
+                    <div className="p-5">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-[#FE6B00]">
+                        Contact Information
+                      </p>
+
+                      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+                        <div>
+                          <p className="text-xs text-gray-500">Full Name</p>
+                          <p className="mt-1 text-sm font-semibold text-black">
+                            {formData.fullName || "Not provided"}
+                          </p>
+                        </div>
+
+                        <div>
+                          <p className="text-xs text-gray-500">Company</p>
+                          <p className="mt-1 text-sm font-semibold text-black">
+                            {formData.companyName || "Not provided"}
+                          </p>
+                        </div>
+
+                        <div>
+                          <p className="text-xs text-gray-500">Email</p>
+                          <p className="mt-1 break-all text-sm font-semibold text-black">
+                            {formData.email}
+                          </p>
+                        </div>
+
+                        <div>
+                          <p className="text-xs text-gray-500">Phone</p>
+                          <p className="mt-1 text-sm font-semibold text-black">
+                            {formData.phone}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="p-5">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-[#FE6B00]">
+                        Project Information
+                      </p>
+
+                      <div className="mt-4 space-y-4">
+                        <div>
+                          <p className="text-xs text-gray-500">Service</p>
+                          <p className="mt-1 text-sm font-semibold text-black">
+                            {formData.service}
+                          </p>
+                        </div>
+
+                        <div>
+                          <p className="text-xs text-gray-500">
+                            Project Description
+                          </p>
+
+                          <p className="mt-1 whitespace-pre-wrap text-sm leading-6 text-gray-700">
+                            {formData.projectDescription}
+                          </p>
+                        </div>
+
+                        <div className="grid gap-4 sm:grid-cols-2">
+                          <div>
+                            <p className="text-xs text-gray-500">Quantity</p>
+                            <p className="mt-1 text-sm font-semibold text-black">
+                              {formData.quantity || "Not provided"}
+                            </p>
+                          </div>
+
+                          <div>
+                            <p className="text-xs text-gray-500">Deadline</p>
+                            <p className="mt-1 text-sm font-semibold text-black">
+                              {formData.deadline || "Not provided"}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div>
+                          <p className="text-xs text-gray-500">
+                            Additional Requirements
+                          </p>
+
+                          <p className="mt-1 whitespace-pre-wrap text-sm leading-6 text-gray-700">
+                            {formData.additionalRequirements ||
+                              "No additional requirements provided."}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="p-5">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-[#FE6B00]">
+                        Attachment
+                      </p>
+
+                      <p className="mt-2 text-sm text-gray-700">
+                        {formData.file
+                          ? formData.file.name
+                          : "No file uploaded. You can continue without an attachment."}
+                      </p>
+
+                      <p className="mt-2 text-xs text-gray-400">
+                        File upload is optional.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Client-friendly error only */}
+                  {submitError && (
+                    <div className="mt-5 rounded-xl border border-red-200 bg-red-50 p-4">
+                      <p className="text-sm font-semibold text-red-600">
+                        {submitError}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Buttons */}
+              <div className="mt-10 flex flex-col-reverse gap-3 sm:flex-row sm:justify-between">
+                {currentStep > 1 ? (
+                  <button
+                    type="button"
+                    onClick={handlePrevious}
+                    disabled={isSending}
+                    className="rounded-full border border-gray-200 px-7 py-3.5 text-sm font-semibold text-black transition hover:border-[#FE6B00] hover:text-[#FE6B00] disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    Back
+                  </button>
+                ) : (
+                  <div />
+                )}
+
+                {currentStep < 4 ? (
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    className="rounded-full bg-[#FE6B00] px-8 py-3.5 text-sm font-semibold text-black transition hover:bg-orange-500"
+                  >
+                    {currentStep === 3 ? "Review Request" : "Continue"}
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    disabled={isSending}
+                    className="rounded-full bg-[#FE6B00] px-8 py-3.5 text-sm font-semibold text-black transition hover:bg-orange-500 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    {isSending
+                      ? "Sending Request..."
+                      : "Submit Quote Request"}
+                  </button>
+                )}
+              </div>
+            </form>
+          </div>
+
+          {/* Sidebar */}
+          <aside className="h-fit rounded-[24px] bg-[#111827] p-7 text-white sm:p-8 lg:sticky lg:top-28">
+            <p className="text-sm font-semibold uppercase tracking-[3px] text-[#FE6B00]">
+              Why Choose Aiglink?
+            </p>
+
+            <h2 className="mt-4 text-3xl font-bold leading-tight">
+              Printing that makes your brand stand out.
+            </h2>
+
+            <p className="mt-5 text-sm leading-7 text-gray-300">
+              We combine smart technology, quality materials, creative
+              thinking, and reliable production to deliver professional
+              results.
+            </p>
+
+            <div className="mt-8 space-y-6">
+              <div>
+                <div className="flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FE6B00] text-black">
+                    ✓
+                  </span>
+
+                  <h3 className="font-semibold">Premium Quality</h3>
+                </div>
+
+                <p className="mt-2 pl-[52px] text-sm leading-6 text-gray-400">
+                  High-quality printing and finishing for professional results.
+                </p>
+              </div>
+
+              <div>
+                <div className="flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FE6B00] text-black">
+                    ✓
+                  </span>
+
+                  <h3 className="font-semibold">Creative Solutions</h3>
+                </div>
+
+                <p className="mt-2 pl-[52px] text-sm leading-6 text-gray-400">
+                  Creative branding solutions designed around your business.
+                </p>
+              </div>
+
+              <div>
+                <div className="flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FE6B00] text-black">
+                    ✓
+                  </span>
+
+                  <h3 className="font-semibold">Reliable Delivery</h3>
+                </div>
+
+                <p className="mt-2 pl-[52px] text-sm leading-6 text-gray-400">
+                  We work with your timeline to keep projects moving.
+                </p>
+              </div>
+
+              <div>
+                <div className="flex items-center gap-3">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FE6B00] text-black">
+                    ✓
+                  </span>
+
+                  <h3 className="font-semibold">Customer Focused</h3>
+                </div>
+
+                <p className="mt-2 pl-[52px] text-sm leading-6 text-gray-400">
+                  Clear communication from the first inquiry to final delivery.
+                </p>
               </div>
             </div>
-          )}
-        </form>
-      </div>
-    </section>
+
+            <div className="mt-9 border-t border-gray-700 pt-7">
+              <p className="text-sm text-gray-400">
+                Prefer to speak with us directly?
+              </p>
+
+              <div className="mt-4 flex flex-col gap-3">
+                <a
+                  href="tel:+2348073400086"
+                  className="rounded-full border border-gray-700 px-5 py-3 text-center text-sm font-semibold transition hover:border-[#FE6B00] hover:text-[#FE6B00]"
+                >
+                  Call Us
+                </a>
+
+                <a
+                  href="https://wa.me/2349114301414?text=Hello%20Aiglink%2C%20I%20would%20like%20to%20make%20an%20inquiry"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full bg-[#FE6B00] px-5 py-3 text-center text-sm font-semibold text-black transition hover:bg-orange-500"
+                >
+                  WhatsApp Us
+                </a>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
   );
 }
 
